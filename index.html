@@ -1,1 +1,59 @@
-<h1>Hello World!</h1>
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="styles.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      <script src="script.js"></script>
+      <script type="text/javascript">
+          $(document).ready(function(){
+              $("#home").click(function(){
+                  document.location.href="/index.html";
+              });
+              $("#projects").click(function(){
+                  $("#content").load("projects.html");
+              });
+              $("#about").click(function(){
+                  $("#content").load("about.html");
+              });
+              $("#contact").click(function(){
+                  $("#content").load("contact.html");
+              });
+          });
+      </script>
+    </head>
+
+  <body>
+
+    <div class="nav">
+      <button href="" id="home">Home</button>
+      <button href="#projects" id="projects">Projects</button>
+      <button href="#about" id="about">About Me</button>
+      <button href="#contact" id="contact">Contact</button>
+    </div>
+
+    <div id="content">
+    <section class="parallax-container">
+    </section>
+
+    <section class="buffer">
+      <img src="headshot.jpg" class="headshot" alt="Headshot">
+      <div>
+        <h1>Hi, I'm Jacob!</h1>
+        <p>
+          I am a 4th year student at the University of Virginia pursuing a Bachelor of Arts in Computer Science. In school I have had the opportunity to explore many topics in computer science such as web development, algorithms, cybersecurity, UI/UX design, and data science. I am most interested in front-end development, as it allows me to apply my skills in both art and programming.
+        </p>
+      </div>
+    </section>
+
+    <section class="parallax-container parallax-container2">
+    </section>
+
+    <section class="buffer">
+    </section>
+
+    </div>
+  </body>
+</html>
+
+
