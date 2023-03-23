@@ -1,79 +1,281 @@
-:root {
-  --color-main: #333;
+body {
+  font-family: 'Century Gothic';
+  box-sizing: border-box;
+  height: 2000px;
+  background: #222;
+  overflow-x: hidden;
+  margin: 0 auto;
+  width: 100vw;
 }
 
-body {
+.bg {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 400px;
+  mix-blend-mode: screen;
+}
+
+.bg-gradient {
+  z-index: -2;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: rgb(76,90,133);
+  background: linear-gradient(0deg, rgba(26,107,83,1) 0%, rgba(148,255,153,1) 100%);
+}
+
+.bg-grid {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  background-image: 
+    linear-gradient(to right bottom, rgba(50, 150, 150, 0.5) 50%, transparent 50%),
+    linear-gradient(to left bottom, rgba(0, 100, 80, 0.5) 50%, transparent 50%);
+  background-size: 40px 40px;
+  background-attachment: fixed;
+  /* filter: blur(1px); */
+}
+
+.section-1 {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.hero {
+  position: absolute;
+  text-align: center;
+  line-height: 1;
+  transform: rotate(-5deg);
+  top: 40px;
+  left: 10%;
+}
+
+.hero h1 {
+  font-size: 60px;
   margin: 0;
-  font-family: Poppins, sans-serif;
+  color: black;
+}
+
+.hero h2 {
+  font-size: 40px;
+  margin: 0;
+  color: black;
 }
 
 .nav {
-  background-color: var(--color-main);
-  display: flex;
-  flex-direction: row;
+  position: relative;
+  z-index: 3;
+  top: 0;
+  width: 80%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
-.nav button {
-  background-color: transparent;
-  color: white;
-  font-size: 1em;
-  border: none;
+.nav:not(.sticky) {
+  transition: all 1s ease-in-out;
+}
+
+.nav.sticky {
+  position: sticky;
+  width: 100%;
+  max-width: 100%;
+  z-index: 3;
+  transition: all ease-in-out 1s;
+}
+
+.nav.sticky::after {
+  bottom: 0;
+  right: 0;
+}
+
+.window.sticky {
+  border-width: 0 0 2px 0;
+}
+
+.window.sticky:hover::after {
+  transform: translateX(0px) translateY(0px) translateZ(-20px);
+}
+
+.window {
+  height: fit-content;
+  background-color: white;
+  border: 2px solid black;
+  transform-style: preserve-3d;
+  transition: transform 1s ease-in-out;
+}
+
+.window::before {
+  content: "";
   position: relative;
   display: block;
-  height: 4em;
-  width: 8em;
-  cursor: pointer;
-  user-select: none;
-  text-align: center;
+  height: 16px;
+  background: linear-gradient(to bottom, transparent 0%, transparent 75%, black 75%, black 100%);
+  background-size: 1px 25%;
 }
 
-.nav button:hover {
-  background-color: #444;
-  box-shadow: 0 0 50px #111;
-}
-
-/* CSS parallax-container code from https://blog.logrocket.com/create-parallax-scrolling-css/ */
-.parallax-container {
-  min-height: 50vh;
-  background-attachment: fixed;
-  background-image: url(sunset_grounds_ss_18.jpg);
-  background-position: center;
-  background-size: cover;
-}
-
-.parallax-container2 {
-  min-height: 50vh;
-  background-attachment: fixed;
-  background-image: url(https://images.unsplash.com/photo-1512641406448-6574e777bec6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80);
-  background-position: center;
-  background-size: cover;
-}
-
-.buffer {
+.window::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: -10px;
+  right: -10px;
   width: 100%;
-  padding: 5vh 0 5vh;
-  background-color: var(--color-main);
+  height: 100%;
+  border: 2px solid white;
+  background: #333;
+  transform: translateZ(-10px);
+  box-shadow: 5px 5px 2px rgba(10, 10, 10, 0.2);
+  transition: all ease-in-out 1s;
+}
+
+.window:hover::after {
+  transform: translateX(5px) translateY(10px) translateZ(-20px);
+}
+
+.nav-list {
   display: flex;
+  padding: 0;
+  justify-content: space-around;
 }
 
-.headshot {
+.nav-item {
+  width: minmax(30px, fit-content);
+  height: fit-content;
+  margin: 0;
+  list-style-type: none;
+  text-align: center;
+  transition: all ease-in-out 0.5s;
+}
+
+.nav-item a {
+  cursor: pointer;
+  background: transparent;
+  text-transform: uppercase;
+}
+
+.nav-item:hover {
+  transform: scale(1.2);
+}
+
+.nav-item:hover a i {
+  background: linear-gradient(0deg, rgba(26,107,83,1) 0%, rgba(148,255,153,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-item:active a span {
+  background: linear-gradient(0deg, rgba(26,107,83,1) 0%, rgba(148,255,153,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-item.not-hovered {
+  opacity: 0.3;
+}
+
+i {
+  margin: 0 10px;
+}
+
+.section-1-end {
+  position: relative;
+  width: 100%;
+  height: 100px;
+}
+
+hr {
+  border: solid 1.5px white;
+}
+
+.content {
+  position: relative;
+  height: fit-content;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.content > div {
+  height: fit-content;
+  margin: 50px;
+  /* border: 2px solid gold; */
+}
+
+.about-container {
+  display: flex;
+	flex-wrap: wrap;
+  gap: 50px;
+}
+
+@media screen and (min-width: 600px) {
+  .about-container {
+    flex-wrap: nowrap;
+  }
+  .bio-pic-container {
+    flex-grow: 0;
+  }
+}
+
+.bio-pic-container {
+  flex-grow: 1;
+  text-align: center;
+  /* border: 2px solid blue; */
+}
+
+.bio-pic {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  object-fit: cover;
   border-radius: 50%;
-  height: auto; 
-  width: auto; 
-  max-width: 200px; 
-  max-height: 200px;
-  margin: 5%;
-  box-shadow: 0 0 50px #111;
+  outline: 4px solid rgba(200, 255, 200, 0.5);
+  outline-offset: -10px;
 }
 
-.buffer h1 {
-  color: white;
-  font-size: 2em;
-  font-weight: 600;
+.bio-container {
+  min-width: 100px;
+  max-width: fit-content;
+  /* border: 2px solid red; */
 }
 
-.buffer p {
+h2 {
   color: white;
-  max-width: 52ch;
+  margin: 0 auto;
+  font-family: 'Century Gothic';
+  font-size: 32px;
   line-height: 1.5;
+}
+
+p {
+  color: white;
+  margin: 10px 0;
+  font-family: 'Century Gothic';
+  line-height: 1.5;
+}
+
+.skills-container p {
+  opacity: 0;
+}
+
+.skills-container p.fade-in {
+  animation: fadeInRight 1s forwards;
+}
+  
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
