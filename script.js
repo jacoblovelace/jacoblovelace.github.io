@@ -45,13 +45,13 @@ function isElementInViewport(element) {
   );
 }
 
-var fadeElements = document.querySelectorAll('.skills-container p');
+var fadeElements = document.querySelectorAll('.projects-container > div');
 
 function handleFadeElements() {
   for (var i = 0; i < fadeElements.length; i++) {
     if (isElementInViewport(fadeElements[i])) {
-      console.log('in view!')
-      fadeElements[i].classList.add('fade-in');
+      if (i % 2 == 0) fadeElements[i].classList.add('fade-right');
+      else fadeElements[i].classList.add('fade-left');
     }
     
   }
