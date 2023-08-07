@@ -1,6 +1,7 @@
 :root {
   --primary1: 82, 201, 182;
   --primary2: 28, 162, 164;
+  --box-shadow: #bbb;
 }
 
 html {
@@ -14,7 +15,6 @@ body {
   min-width: 300px;
   font-family: Consolas;
   margin: 0;
-  border: 4px solid green;
 }
 
 h1 {
@@ -83,7 +83,6 @@ p {
   .nav li {
     flex-basis: 100%;
     text-align: center;
-    border: 2px solid green;
   }
 }
 
@@ -340,13 +339,13 @@ p {
 .skills-container {
   display: flex;
   flex-wrap: wrap;
-  row-gap: 80px;
-  margin: 60px 0;
+  height: fit-content;
+  row-gap: 20px;
 }
 
 .skills-container > div {
   width: 100%;
-  height: 100px;
+  flex-basis: 100%;
 }
 
 .skills-container > div > h2 {
@@ -355,7 +354,13 @@ p {
   background: none;
   width: fit-content;
   padding: 10px 30px;
-  margin-left: -50px;
+  margin: 0 0 15px -50px;
+}
+
+@media (max-width: 500px) {
+  .skills-container > div > h2 {
+    margin: 0 auto 15px auto;
+  }
 }
 
 .skills-container > div > h2::before {
@@ -368,7 +373,7 @@ p {
   left: 0;
   background: black;
   box-shadow: 0 5px 10px #bbb;
-  transform: skew(20deg);
+  transform: skew(15deg);
 }
 
 .skills-list {
@@ -395,17 +400,14 @@ p {
 
 .card {
   position: relative;
-  width: 350px;
+  width: 320px;
   text-align: left;
   border-radius: 10px;
-  background-image:  repeating-radial-gradient(circle at 100% 0, transparent 0, rgba(var(--primary2), 0.5) 32px), linear-gradient(195deg, rgba(var(--primary1), 0.8) 0%, rgba(var(--primary2), 1) 80%);
-  background-size: 100% 65px;
-  background-position: 0 0;
-  background-repeat: no-repeat;
   box-shadow: 0 5px 10px #bbb;
   padding: 0 20px 10px 20px;
   border: 3px solid black;
   outline: 3px solid none;
+
   transition: transform 250ms ease-in-out;
 }
 
@@ -415,8 +417,22 @@ p {
   transform: scale(0.97);
 }
 
-.card h2 {
-  margin: 30px 0 25px 0;
+.card-header {
+  min-height: 20px;
+  width: calc(100% + 1*(20px));
+  margin: 0 0 0 -20px;
+  padding: 0 0 0 20px;
+  border-radius: 6px 6px 0 0;
+
+  background-image:  repeating-radial-gradient(circle at 100% 0, transparent 0, rgba(var(--primary2), 0.5) 32px), linear-gradient(195deg, rgba(var(--primary1), 0.8) 0%, rgba(var(--primary2), 1) 80%);
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+
+}
+
+.card-header h2 {
+  margin: 40px 0 15px 0;
 }
 
 .card ul {
