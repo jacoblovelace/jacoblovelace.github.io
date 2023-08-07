@@ -68,8 +68,8 @@ p {
   top: 0;
   left: 0;
   background-image: radial-gradient(#d0d0d0 2.5px, transparent 2.5px);
-background-size: 30px 30px;
-background-color: rgba(255, 255, 255, 0);
+  background-size: 30px 30px;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .nav::after {
@@ -124,19 +124,19 @@ background-color: rgba(255, 255, 255, 0);
 }
 
 .nav li::before {
+  --offset: 20%;
   content: "";
   position: absolute;
   width: 0;
   height: 3px;
   top: 20px;
-  left: 40%; 
+  left: var(--offset); 
   background: linear-gradient(90deg, rgba(var(--primary2), 1), rgba(var(--primary1), 1));
   transition: all 500ms;
 }
 
 .nav li:hover::before {
-  width: 60%;
-  transform: translateX(-40%);
+  width: calc(100% - (2 * var(--offset)));
 }
 
 .nav li a:active {
