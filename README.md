@@ -1,2 +1,2 @@
 # jacoblovelace.github.io
-Personal website in the works!
+Welcome to my portfolio! This is where you can learn more about me, my skills, and my projects.
