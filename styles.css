@@ -2,19 +2,19 @@
   --primary1: 82, 201, 182;
   --primary2: 28, 162, 164;
   --box-shadow: #bbb;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding: 4rem;
-  
+  scroll-padding: 150px;
 }
 
 body {
   width: 100vw;
   min-width: 300px;
-  font-family: Consolas;
   margin: 0;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -50,12 +50,10 @@ p {
 /* NAVIGATION BAR */
 
 .nav {
-
   top: 0;
   z-index: 2;
   position: sticky;
   background: white;
-  font-size: 20px;
   border-bottom: 3px solid black;
   box-shadow: 0 0px 10px grey;
   color: black;
@@ -70,19 +68,21 @@ p {
   justify-content: space-between;
   list-style: none;
   align-items: center;
+  font-size: 16px;
+  text-transform: uppercase;
 }
 
 @media (max-width: 700px) {
   .nav ul {
     width: 100%;
-    height: fit-content;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    row-gap: 10px;
+    padding: 20px 0;
+    display: grid;
+    justify-content: center;
+    row-gap: 20px;
   }
   .nav li {
-    flex-basis: 100%;
     text-align: center;
+    flex-basis: 100%;
   }
 }
 
@@ -91,29 +91,25 @@ p {
   transition: transform 500ms;
 }
 
-.nav li a {
-  width: fit-content;
-}
-
-.nav li a:hover {
+.nav li:hover {
   background: linear-gradient(rgb(var(--primary1)) 0%, rgb(var(--primary2)) 100%);
   background-size: cover;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.nav li a::before {
+.nav li::before {
   content: "";
   position: absolute;
   width: 0;
   height: 3px;
-  top: 25px;
+  top: 20px;
   left: 40%; 
   background: linear-gradient(90deg, rgba(var(--primary2), 1), rgba(var(--primary1), 1));
   transition: all 500ms;
 }
 
-.nav li a:hover::before {
+.nav li:hover::before {
   width: 60%;
   transform: translateX(-40%);
 }
@@ -172,7 +168,6 @@ p {
   height: 200px;
   width: 100%;
   overflow: hidden;
-  font-family: Helvetica;
 }
 
 @media (max-width: 900px) {
@@ -196,13 +191,23 @@ p {
   color: white;
 }
 
-.hero-text h1:nth-child(1) {
+.hero-text h1 {
   position: absolute;
+}
+
+.hero-text1 h1:nth-child(1) {
+  right: calc(50% + 140px);
+}
+
+.hero-text1 h1:nth-child(2) {
+  left: calc(50% + 140px);
+}
+
+.hero-text2 h1:nth-child(1) {
   right: calc(50% + 150px);
 }
 
-.hero-text h1:nth-child(2) {
-  position: absolute;
+.hero-text2 h1:nth-child(2) {
   left: calc(50% + 150px);
 }
 
@@ -280,7 +285,7 @@ p {
 #about p {
   border: 2px solid none;
   margin: 0 auto;
-  width: 80%;
+  width: 75%;
 }
 
 @media (max-width: 500px) {
