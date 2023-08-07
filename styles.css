@@ -6,11 +6,15 @@
 html {
   scroll-behavior: smooth;
   scroll-padding: 4rem;
+  
 }
 
 body {
+  width: 100vw;
+  min-width: 300px;
   font-family: Consolas;
   margin: 0;
+  border: 4px solid green;
 }
 
 h1 {
@@ -32,6 +36,13 @@ h2 {
   text-shadow: -1px -1px 0 #fff, -1px 1px 0 #fff, 1px -1px 0 #fff, 1px 1px 0 #fff;
 }
 
+.gradient-text {
+  background: linear-gradient(rgb(var(--primary1)) 0%, rgb(var(--primary2)) 100%);
+  background-size: cover;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 p {
   line-height: 1.5;
 }
@@ -39,6 +50,7 @@ p {
 /* NAVIGATION BAR */
 
 .nav {
+
   top: 0;
   z-index: 2;
   position: sticky;
@@ -60,19 +72,38 @@ p {
   align-items: center;
 }
 
+@media (max-width: 700px) {
+  .nav ul {
+    width: 100%;
+    height: fit-content;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+  .nav li {
+    flex-basis: 100%;
+    text-align: center;
+    border: 2px solid green;
+  }
+}
+
 .nav li {
   position: relative;
   transition: transform 500ms;
 }
 
-.nav li:hover {
+.nav li a {
+  width: fit-content;
+}
+
+.nav li a:hover {
   background: linear-gradient(rgb(var(--primary1)) 0%, rgb(var(--primary2)) 100%);
   background-size: cover;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.nav li::before {
+.nav li a::before {
   content: "";
   position: absolute;
   width: 0;
@@ -83,12 +114,12 @@ p {
   transition: all 500ms;
 }
 
-.nav li:hover::before {
+.nav li a:hover::before {
   width: 60%;
   transform: translateX(-40%);
 }
 
-.nav li:active {
+.nav li a:active {
   transform: scale(0.9);
 }
 
@@ -109,12 +140,13 @@ p {
 }
 
 .img-box {
-  z-index: 1;
   position: absolute;
+  width: 80%;
+  max-height: 300px;
+  max-width: 300px;
+  z-index: 1;
   left: 50%;
   top: 40%;
-  height: 300px;
-  width: 300px;
   border-radius: 50%;
   transform: translateX(-50%);
 }
@@ -134,11 +166,25 @@ p {
 }
 
 .hero-text {
+  --hero-text-size: 48px;
+
+  visibility: visible;
   position: absolute;
   height: 200px;
   width: 100%;
   overflow: hidden;
-  --hero-text-size: 48px;
+  font-family: Helvetica;
+}
+
+@media (max-width: 900px) {
+  .hero-text {
+    --hero-text-size: 32px;
+  }
+}
+
+.hero-text h1 {
+  margin: 0;
+  font-size: var(--hero-text-size);
 }
 
 .hero-text1 {
@@ -151,12 +197,6 @@ p {
   color: white;
 }
 
-.hero-text h1 {
-  margin: 0;
-  font-size: var(--hero-text-size);
-  font-family: Helvetica;
-}
-
 .hero-text h1:nth-child(1) {
   position: absolute;
   right: calc(50% + 150px);
@@ -167,6 +207,44 @@ p {
   left: calc(50% + 150px);
 }
 
+/* HERO TEXT FOR SMALL SCREENS */
+
+.hero-text-alt {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  max-width: 1000px;
+  margin: 180px auto 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .hero-text-alt {
+    visibility: visible;
+    width: 100%;
+    height: fit-content;
+  }
+  .hero-text {
+    visibility: hidden;
+  }
+}
+
+.hero-text-alt h1 {
+  font-size: 32px;
+  margin: 10px;
+  line-height: 0.8;
+}
+
+.hero-text-alt :nth-child(1) {
+  font-size: 48px;
+}
+
+.hero-text-alt hr {
+  margin: 40px 40px 10px 40px;
+  border: 1px solid black;
+}
+
 /* MAIN CONTENT */
 
 .content {
@@ -175,15 +253,22 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 150px auto;
+  margin: 0 auto;
+}
+
+@media (max-width: 500px) {
+  .content {
+    width: 80%;
+  }
 }
 
 .content > div {
   width: 100%;
+  margin: 40px auto;
 }
 
 .content > div > h1 {
-  margin: 60px auto;
+  margin: 0 auto 40px auto;
   width: fit-content;
 }
 
@@ -199,8 +284,14 @@ p {
   width: 80%;
 }
 
+@media (max-width: 500px) {
+  #about p {
+    width: 100%;
+  }
+}
+
 .social-links {
-  width: fit-content;
+  max-width: 500px;
   margin: 50px auto 0px auto;
   display: flex;
   flex-direction: rows;
@@ -208,6 +299,20 @@ p {
   column-gap: 50px;
   padding: 0;
   list-style: none;
+}
+
+@media (max-width: 500px) {
+  .social-links {
+    width: 100%;
+    row-gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+  .social-links li {
+    flex-basis: 100%;
+    width: fit-content;
+  }
 }
 
 .social-links li img {
