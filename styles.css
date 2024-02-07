@@ -55,7 +55,7 @@ ul {
   height: 100%;
   background-image: url("https://images.unsplash.com/photo-1513112300738-bbb13af7028e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDcxODUyODF8&ixlib=rb-4.0.3&q=85");
   background-size: cover;
-  filter: brightness(40%);
+  filter: brightness(30%);
 }
 
 /* TITLE SCREEN */
@@ -545,23 +545,29 @@ from {
 /* SKILLS */
 
 .skills-lists {
-  display: flex;
-  flex-direction: row;
-  gap: 5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  grid-gap: 2.5rem;
   text-align: left;
 }
 
 .skills-lists h2 {
   padding: 0;
   margin: 1rem 0;
+  text-decoration: underline;
 }
 
 .skills-lists > div > ul {
+  width: 100%;
   margin: 0;
   padding: 0;
-  min-width: 8rem;
   list-style: none;
 }
+
+.skills-lists > div:nth-child(1) { grid-area: 1 / 1 / 2 / 2; }
+.skills-lists > div:nth-child(2) { grid-area: 1 / 2 / 2 / 3; }
+.skills-lists > div:nth-child(3) { grid-area: 2 / 1 / 3 / 3; }
 
 .skills-lists > div > ul > li > p {
   margin: 0.5rem 0;
