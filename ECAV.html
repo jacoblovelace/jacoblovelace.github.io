@@ -22,38 +22,44 @@
         <canvas id="can"></canvas>
 
         <div id="sidepanel">
-          <ul id="info">
-            <li id="size">Size: <span></span></li>
-            <li id="framerate">Framerate: <span></span>
-            </li>
-            <li id="rule">Rule: <span></span></li>
-            <li id="iteration">Iteration: <span></span></li>
-        </ul>
+            <ul id="info">
+                <li id="size">Size: <span></span></li>
+                <li id="framerate">Framerate: <span></span>
+                </li>
+                <li id="rule">Rule: <span></span></li>
+                <li id="generation">Generation: <span></span></li>
+            </ul>
 
-          <div id="settings">
-            <label for="sizeInput">Size</label>
-            <input id="sizeInput" type="number" value="50" onchange="changeSize()" placeholder="Size" min="3" max="150">
-            <label for="framerateInput">Framerate</label>
-            <input id="framerateInput" type="number" value="10" onchange="changeFramerate()" placeholder="Framerate" min="1" max="60">
+            <div id="settings">
+                <label for="gridLines">Grid Lines</label>
+                <input id="gridLines" type="checkbox" onclick="toggleGridLines()">
 
-            <label for="ruleInput">Rule</label>
-            <input id="ruleInput" type="number" value="101" onchange="changeRule()" placeholder="Rule" min="0" max="255">
-          </div>
-          
-          <div id="settings_appearance">
-            <label for="backgroundColorInput">Background Color</label>
-            <input id="backgroundColorInput" type="text" value="#323232" onchange="changeBackgroundColor()" placeholder="Background Color">
+                <label for="sizeInput">Size</label>
+                <input id="sizeInput" type="number" value="50" onchange="changeSize()" placeholder="Size" min="3" max="200">
+
+                <label for="framerateInput">Framerate</label>
+                <input id="framerateInput" type="number" value="10" onchange="changeFramerate()" placeholder="Framerate" min="1" max="60">
+
+                <label for="ruleInput">Rule</label>
+                <input id="ruleInput" type="number" value="101" onchange="changeRule()" placeholder="Rule" min="0" max="255">
+                <input id="ruleInputBinary" type="text" value="01100101" onchange="changeRule(doRandom=false, binary=true)" placeholder="Rule">
+                <button id="randomRule" title="Random Rule" onclick="changeRule(doRandom=true)">Random Rule</button>
+            </div>
             
-            <label for="cellColorOnInput">Cell Color (On)</label>
-            <input id="cellColorOnInput" type="text" value="#000000" onchange="changeCellColor(true)" placeholder="Cell Color (On)">
+            <div id="settings_appearance">
+                <label for="backgroundColorInput">Background Color</label>
+                <input id="backgroundColorInput" type="text" value="#323232" onchange="changeBackgroundColor()" placeholder="Background Color">
+                
+                <label for="cellColorOnInput">Cell Color (On)</label>
+                <input id="cellColorOnInput" type="text" value="#000000" onchange="changeCellColor(true)" placeholder="Cell Color (On)">
 
-            <label for="sizeInput">Cell Color (Off)</label>
-            <input id="cellColorOffInput" type="text" value="#ffffff" onchange="changeCellColor(false)" placeholder="Cell Color (Off)">
-          </div>
+                <label for="sizeInput">Cell Color (Off)</label>
+                <input id="cellColorOffInput" type="text" value="#ffffff" onchange="changeCellColor(false)" placeholder="Cell Color (Off)">
+            </div>
         </div>
-      </div>
+    </div>
 
-      <div id="playback">
+    <div id="playback">
         <button id="startOver" title="Start Over" onclick="startOver()">
           <i class="fa-solid fa-backward-step"></i> 
         </button>
