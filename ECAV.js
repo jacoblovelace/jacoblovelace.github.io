@@ -1,13 +1,6 @@
 
 // GLOBALS
 SCREEN_SIZE = 600;
-VAL_TO_COLOR = new Map(
-  [
-    [-1, [0, 0, 0, 255]],
-    [0, [255, 255, 255]],
-    [1, [0, 0, 0]],
-  ]
-);
 COUNT = 0;
 ROW_COUNT = -1;
 TEMP_ROW = null;
@@ -15,10 +8,18 @@ TEMP_ROW = null;
 // CONFIGURABLES
 FRAMERATE_CONFIG = 10;
 FRAMERATE = FRAMERATE_CONFIG;
-RULE = "01100101";
+RULE = 101;
 NUM_COLS = 50;
 NUM_ROWS = NUM_COLS;
+GRID_LINES = false;
 BACKGROUND_COLOR = (50, 50, 50);
+VAL_TO_COLOR = new Map(
+  [
+    [-1, [0, 0, 0, 255]],
+    [0, [255, 255, 255]],
+    [1, [0, 0, 0]],
+  ]
+);
 
 // STATES
 ENDED = false;
@@ -50,7 +51,7 @@ class Cell {
   draw() {
     const c = color(...this.color);
     fill(c);
-    noStroke();
+    GRID_LINES ? stroke(50, 50, 50, 50) : noStroke();
     return rect(this.xpos, this.ypos, this.size, this.size);
   }
   
@@ -136,7 +137,9 @@ function simulate(cur, row_num) {
     
     three = parseInt(three, 2);
 
-    if (RULE.split("")[RULE.length - 1 - three] == 1) {
+    const rule = "00000000".substring(Number(RULE).toString(2).length) + Number(RULE).toString(2);
+
+    if (rule.split("")[rule.length - 1 - three] == 1) {
       next.cells[i].setVal(1);
     } else {
       next.cells[i].setVal(0);
@@ -166,7 +169,6 @@ function startOver() {
   TEMP_ROW.initStartingState();
   ENDED = false;
   GRID.reset();
-  $('#stepForward').removeClass('disabled');
 }
 
 function togglePause() {
@@ -224,9 +226,14 @@ function stepForward() {
 
 // INPUT FUNCTIONS
 
+function toggleGridLines() {
+  const checkBox = document.getElementById("gridLines");
+  GRID_LINES = checkBox.checked;
+}
+
 function changeSize() {
   const size = document.getElementById("sizeInput").value;
-  if (size >= 3 && size <= 150) {
+  if (size >= 3 && size <= 200) {
     
     NUM_COLS = parseInt(size);
     NUM_ROWS = NUM_COLS;
@@ -257,22 +264,35 @@ function changeFramerate() {
   return false
 }
 
-function changeRule() {
-  const rule = document.getElementById("ruleInput").value;
-  
-  if (rule >= 0 && rule <= 255) {
-    
-    r = Number(rule).toString(2);
-    RULE = "00000000".substr(r.length) + r;
-    
-    startOver();
-    
-    $("#rule > span").html(RULE);
-    return true
+function changeRule(doRandom=false, binary=false) {
+  // rule is int (0-255)
+  let rule = 0;
+  let valid = false; 
+
+  if (doRandom) {
+    rule = Math.floor(Math.random() * 256);
+    document.getElementById("ruleInput").value = rule;
+    document.getElementById("ruleInputBinary").value = "00000000".substring(Number(rule).toString(2).length) + Number(rule).toString(2);
+    valid = true;
   }
-   
-  console.log("invalid rule");
-  return false
+  else {
+    rule = binary ? parseInt(document.getElementById("ruleInputBinary").value, 2) : document.getElementById("ruleInput").value;
+
+    if (rule >= 0 && rule <= 255) {
+      if (binary) document.getElementById("ruleInput").value = rule;
+      else document.getElementById("ruleInputBinary").value = "00000000".substring(Number(rule).toString(2).length) + Number(rule).toString(2);
+      valid = true;
+    }
+  }
+
+  if (valid) {
+    startOver();
+    RULE = rule;
+    $("#rule > span").html(RULE);
+
+    return true;
+  }
+  return false;
 }
 
 function changeBackgroundColor() {
@@ -326,18 +346,23 @@ function draw() {
     $('#stepForward').addClass('disabled');
   }
   
+  // draw grid
   for (let i = 0; i <= ROW_COUNT; i++) {
     
     if (ROW_COUNT == 0 && GRID.rows[mod(i+1, NUM_ROWS)] !== TEMP_ROW) GRID.rows[mod(i, NUM_ROWS)] = TEMP_ROW;
     
-    TEMP_ROW = simulate(GRID.rows[i], mod(i+1, NUM_ROWS));
-    if ((!ENDED || CONTINUOUS) && ROW_COUNT < NUM_ROWS - 1) {
-      GRID.rows[mod(i+1, NUM_ROWS)] = TEMP_ROW;
+    // only need to simulate last drawn row
+    if (i == ROW_COUNT) {
+      TEMP_ROW = simulate(GRID.rows[i], mod(i+1, NUM_ROWS));
+      if ((!ENDED || CONTINUOUS) && ROW_COUNT < NUM_ROWS - 1) {
+        GRID.rows[mod(i+1, NUM_ROWS)] = TEMP_ROW;
+      }
     }
     
+    // draw every row
     GRID.rows[mod(i, NUM_ROWS)].draw();
   }
   
-  $("#iteration > span").html(COUNT);
+  $("#generation > span").html(COUNT);
   
 }
