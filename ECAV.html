@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.1/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.1/addons/p5.sound.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="ECAV_styles.css">
+    <script src="https://kit.fontawesome.com/cee67ffb77.js" crossorigin="anonymous"></script>
+    
+    <meta charset="utf-8" />
+  </head>
+  
+  
+  <body>
+    <main>
+      <h1>Elementary Cellular Automata Visualizer</h1>
+      <p></p>
+      
+      <div id="dashboard">
+        <canvas id="can"></canvas>
+
+        <div id="sidepanel">
+          <ul id="info">
+            <li id="size">Size: <span></span></li>
+            <li id="framerate">Framerate: <span></span>
+            </li>
+            <li id="rule">Rule: <span></span></li>
+            <li id="iteration">Iteration: <span></span></li>
+        </ul>
+
+          <div id="settings">
+            <label for="sizeInput">Size</label>
+            <input id="sizeInput" type="number" value="50" onchange="changeSize()" placeholder="Size" min="3" max="150">
+            <label for="framerateInput">Framerate</label>
+            <input id="framerateInput" type="number" value="10" onchange="changeFramerate()" placeholder="Framerate" min="1" max="60">
+
+            <label for="ruleInput">Rule</label>
+            <input id="ruleInput" type="number" value="101" onchange="changeRule()" placeholder="Rule" min="0" max="255">
+          </div>
+          
+          <div id="settings_appearance">
+            <label for="backgroundColorInput">Background Color</label>
+            <input id="backgroundColorInput" type="text" value="#323232" onchange="changeBackgroundColor()" placeholder="Background Color">
+            
+            <label for="cellColorOnInput">Cell Color (On)</label>
+            <input id="cellColorOnInput" type="text" value="#000000" onchange="changeCellColor(true)" placeholder="Cell Color (On)">
+
+            <label for="sizeInput">Cell Color (Off)</label>
+            <input id="cellColorOffInput" type="text" value="#ffffff" onchange="changeCellColor(false)" placeholder="Cell Color (Off)">
+          </div>
+        </div>
+      </div>
+
+      <div id="playback">
+        <button id="startOver" title="Start Over" onclick="startOver()">
+          <i class="fa-solid fa-backward-step"></i> 
+        </button>
+
+        <button id="play" title="Play/Pause" onclick="togglePause()">
+          <i class="fa-solid fa-play"></i>
+          <i class="fa-solid fa-pause" style="display: none"></i>
+        </button>
+
+        <button id="fastForward" title="Fast Forward" onclick="toggleFastForward()">
+          <i class="fa-solid fa-forward"></i>
+        </button>
+
+        <button id="continuous" title="Continuous" onclick="toggleContinuous()">
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+
+        <button id="stepForward" title="Step Forward" onclick="stepForward()">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+    </main>
+    <script src="ECAV.js"></script>
+  </body>
+</html>
