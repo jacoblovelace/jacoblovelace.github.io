@@ -2,13 +2,12 @@
 <html lang="en">
   
   <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.1/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.1/addons/p5.sound.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    
     <link rel="stylesheet" type="text/css" href="ECAV_styles.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.1/p5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/cee67ffb77.js" crossorigin="anonymous"></script>
-    
+
     <meta charset="utf-8" />
   </head>
   
@@ -72,9 +71,12 @@
             <label for="framerateInput">Framerate</label>
             <input id="framerateInput" type="number" value="10" onchange="changeFramerate()" placeholder="Framerate" min="1" max="60">
 
-            <label for="ruleInput">Rule</label>
+            <label for="ruleInput">Rule (Decimal)</label>
             <input id="ruleInput" type="number" value="101" onchange="changeRule()" placeholder="Rule" min="0" max="255">
+
+            <label for="ruleInputBinary">Rule (Binary)</label>
             <input id="ruleInputBinary" type="text" value="01100101" onchange="changeRule(doRandom=false, binary=true)" placeholder="Rule">
+
             <button id="randomRule" title="Random Rule" onclick="changeRule(doRandom=true)">Random Rule</button>
 
             <label for="neighborDistanceInput">Neighbor Distance</label>
@@ -99,6 +101,10 @@
 
       </div>
 
+      <div id="footer">
+        <p>© 2024 Jacob Lovelace</p>
+        <a href="/">Visit My Website</a>
+      </div>
     </main>
 
     <script src="ECAV.js"></script>

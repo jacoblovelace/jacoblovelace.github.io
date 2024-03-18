@@ -29,7 +29,7 @@ PAUSED = true;
 FAST_FORWARDED = false;
 CONTINUOUS = false;
 
-
+// CLASSES
 class Cell {
   
   constructor(xpos, ypos, size) {
@@ -128,28 +128,7 @@ class Grid {
   
 }
 
-function simulate(cur, row_num) { 
-  
-  const next = new Row(row_num * (SCREEN_SIZE / NUM_ROWS), NUM_COLS);
-
-  for (let i = 0; i < cur.cells.length; i++) {
-    const left = cur.cells[mod(i-NEIGHBOR_DISTANCE, cur.cells.length)];
-    const right = cur.cells[mod(i+NEIGHBOR_DISTANCE, cur.cells.length)];
-    let three = left.getVal().toString() + cur.cells[i].getVal().toString() + right.getVal().toString();
-    
-    three = parseInt(three, 2);
-
-    const rule = "00000000".substring(Number(RULE).toString(2).length) + Number(RULE).toString(2);
-
-    if (rule.split("")[rule.length - 1 - three] == 1) {
-      next.cells[i].setVal(1);
-    } else {
-      next.cells[i].setVal(0);
-    }
-  }
-
-  return next;
-}
+// UTILITY FUNCTIONS
 
 function mod(n, m) {
   return ((n % m) + m) % m;
@@ -161,8 +140,7 @@ function hexToRgb(hex) {
   ] : null;
 }
 
-
-// BUTTON FUNCTIONS
+// PLAYBACK BUTTONS
 
 function startOver() {
   COUNT = 0;
@@ -225,8 +203,7 @@ function stepForward() {
   if (ROW_COUNT >= NUM_ROWS) ROW_COUNT = 0;
 }
 
-
-// INPUT FUNCTIONS
+// SETTINGS INPUTS
 
 function toggleGridLines() {
   const checkBox = document.getElementById("gridLines");
@@ -234,42 +211,45 @@ function toggleGridLines() {
 }
 
 function changeSize() {
-  const size = document.getElementById("sizeInput").value;
-  if (size >= 3 && size <= 200) {
-    
-    NUM_COLS = parseInt(size);
-    NUM_ROWS = NUM_COLS;
+  const lower_bound = 3;
+  const upper_bound = 200;
 
-    document.getElementById("neighborDistanceInput").value = Math.min(NEIGHBOR_DISTANCE, Math.floor(NUM_COLS / 2));
-    
-    GRID.rows = [];
-    GRID = new Grid(NUM_COLS, NUM_ROWS);
-    startOver();
-    
-    $("#size > span").html(NUM_COLS);
-    return true
-  }
-   
-  console.log("size out of range");
-  return false
+  let input_val = document.getElementById("sizeInput").value;
+
+  input_val = Math.max(input_val, lower_bound);
+  input_val = Math.min(input_val, upper_bound);
+
+  document.getElementById("sizeInput").value = input_val;
+
+  NUM_COLS = parseInt(input_val);
+  NUM_ROWS = NUM_COLS;
+  $("#size > span").html(NUM_COLS);
+
+  document.getElementById("neighborDistanceInput").value = Math.min(NEIGHBOR_DISTANCE, Math.floor(NUM_COLS / 2));
+  
+  GRID.rows = [];
+  GRID = new Grid(NUM_COLS, NUM_ROWS);
+
+  startOver();
 }
 
 function changeFramerate() {
-  const framerate = document.getElementById("framerateInput").value;
+  const lower_bound = 1;
+  const upper_bound = 60;
+
+  let input_val = document.getElementById("framerateInput").value;
+
+  input_val = Math.max(input_val, lower_bound);
+  input_val = Math.min(input_val, upper_bound);
   
-  if (framerate >= 1 && framerate <= 60) {
-    FRAMERATE_CONFIG = parseInt(framerate);
-    FRAMERATE = FRAMERATE_CONFIG;
-    $("#framerate > span").html(FRAMERATE_CONFIG);
-    return true
-  }
-   
-  console.log("framerate out of range");
-  return false
+  document.getElementById("framerateInput").value = input_val;
+
+  FRAMERATE_CONFIG = parseInt(input_val);
+  FRAMERATE = FRAMERATE_CONFIG;
+  $("#framerate > span").html(FRAMERATE_CONFIG);
 }
 
 function changeRule(doRandom=false, binary=false) {
-  // rule is int (0-255)
   let rule = 0;
   let valid = false; 
 
@@ -277,14 +257,18 @@ function changeRule(doRandom=false, binary=false) {
     rule = Math.floor(Math.random() * 256);
     document.getElementById("ruleInput").value = rule;
     document.getElementById("ruleInputBinary").value = "00000000".substring(Number(rule).toString(2).length) + Number(rule).toString(2);
+
     valid = true;
   }
   else {
+    // convert rule into decimal if in binary
     rule = binary ? parseInt(document.getElementById("ruleInputBinary").value, 2) : document.getElementById("ruleInput").value;
 
+    // check bounds
     if (rule >= 0 && rule <= 255) {
       if (binary) document.getElementById("ruleInput").value = rule;
       else document.getElementById("ruleInputBinary").value = "00000000".substring(Number(rule).toString(2).length) + Number(rule).toString(2);
+
       valid = true;
     }
   }
@@ -296,24 +280,33 @@ function changeRule(doRandom=false, binary=false) {
 
     return true;
   }
+
   return false;
 }
 
 function changeNeighborDistance() {
-  dist = Math.min(document.getElementById("neighborDistanceInput").value, Math.floor(NUM_COLS / 2));
-  document.getElementById("neighborDistanceInput").value = dist;
-  NEIGHBOR_DISTANCE = dist;
+  const lower_bound = 1;
+  const upper_bound = Math.floor(NUM_COLS / 2);
+
+  let input_val = document.getElementById("neighborDistanceInput").value;
+
+  input_val = Math.max(input_val, lower_bound);
+  input_val = Math.min(input_val, upper_bound);
+  
+  document.getElementById("neighborDistanceInput").value = input_val;
+
+  NEIGHBOR_DISTANCE = input_val;
+  
   startOver();
 }
 
-// INPUT COLOR FUNCTIONS
+// COLOR SETTINGS INPUTS
 
 function changeBackgroundColor() {
   const hex = document.getElementById("backgroundColorInput").value;
   
   const rgb = hexToRgb(hex);
   if (rgb) BACKGROUND_COLOR = rgb;
-  else console.log("invalid color");
 }
 
 function changeCellColor(isOn) {
@@ -325,7 +318,31 @@ function changeCellColor(isOn) {
     if (isOn) VAL_TO_COLOR.set(1, rgb);
     else VAL_TO_COLOR.set(0, rgb);
   }
-  else console.log("invalid color");
+}
+
+// SIMULAION FUNCTION
+
+function next_generation(cur, row_num) { 
+  
+  const next = new Row(row_num * (SCREEN_SIZE / NUM_ROWS), NUM_COLS);
+
+  for (let i = 0; i < cur.cells.length; i++) {
+    const left = cur.cells[mod(i-NEIGHBOR_DISTANCE, cur.cells.length)];
+    const right = cur.cells[mod(i+NEIGHBOR_DISTANCE, cur.cells.length)];
+    let three = left.getVal().toString() + cur.cells[i].getVal().toString() + right.getVal().toString();
+    
+    three = parseInt(three, 2);
+
+    const rule = "00000000".substring(Number(RULE).toString(2).length) + Number(RULE).toString(2);
+
+    if (rule.split("")[rule.length - 1 - three] == 1) {
+      next.cells[i].setVal(1);
+    } else {
+      next.cells[i].setVal(0);
+    }
+  }
+
+  return next;
 }
 
 // P5.js functions
@@ -366,7 +383,7 @@ function draw() {
     
     // only need to simulate last drawn row
     if (i == ROW_COUNT) {
-      TEMP_ROW = simulate(GRID.rows[i], mod(i+1, NUM_ROWS));
+      TEMP_ROW = next_generation(GRID.rows[i], mod(i+1, NUM_ROWS));
       if ((!ENDED || CONTINUOUS) && ROW_COUNT < NUM_ROWS - 1) {
         GRID.rows[mod(i+1, NUM_ROWS)] = TEMP_ROW;
       }
