@@ -12,6 +12,7 @@ RULE = 101;
 NUM_COLS = 50;
 NUM_ROWS = NUM_COLS;
 GRID_LINES = false;
+NEIGHBOR_DISTANCE = 1;
 BACKGROUND_COLOR = (50, 50, 50);
 VAL_TO_COLOR = new Map(
   [
@@ -20,6 +21,7 @@ VAL_TO_COLOR = new Map(
     [1, [0, 0, 0]],
   ]
 );
+
 
 // STATES
 ENDED = false;
@@ -131,8 +133,8 @@ function simulate(cur, row_num) {
   const next = new Row(row_num * (SCREEN_SIZE / NUM_ROWS), NUM_COLS);
 
   for (let i = 0; i < cur.cells.length; i++) {
-    const left = cur.cells[mod(i-1, cur.cells.length)];
-    const right = cur.cells[mod(i+1, cur.cells.length)];
+    const left = cur.cells[mod(i-NEIGHBOR_DISTANCE, cur.cells.length)];
+    const right = cur.cells[mod(i+NEIGHBOR_DISTANCE, cur.cells.length)];
     let three = left.getVal().toString() + cur.cells[i].getVal().toString() + right.getVal().toString();
     
     three = parseInt(three, 2);
@@ -237,6 +239,8 @@ function changeSize() {
     
     NUM_COLS = parseInt(size);
     NUM_ROWS = NUM_COLS;
+
+    document.getElementById("neighborDistanceInput").value = Math.min(NEIGHBOR_DISTANCE, Math.floor(NUM_COLS / 2));
     
     GRID.rows = [];
     GRID = new Grid(NUM_COLS, NUM_ROWS);
@@ -294,6 +298,15 @@ function changeRule(doRandom=false, binary=false) {
   }
   return false;
 }
+
+function changeNeighborDistance() {
+  dist = Math.min(document.getElementById("neighborDistanceInput").value, Math.floor(NUM_COLS / 2));
+  document.getElementById("neighborDistanceInput").value = dist;
+  NEIGHBOR_DISTANCE = dist;
+  startOver();
+}
+
+// INPUT COLOR FUNCTIONS
 
 function changeBackgroundColor() {
   const hex = document.getElementById("backgroundColorInput").value;
