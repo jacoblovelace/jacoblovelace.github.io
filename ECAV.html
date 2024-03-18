@@ -17,71 +17,94 @@
     <main>
       <h1>Elementary Cellular Automata Visualizer</h1>
       <p></p>
+
+      <hr>
       
       <div id="dashboard">
-        <canvas id="can"></canvas>
 
-        <div id="sidepanel">
-            <ul id="info">
-                <li id="size">Size: <span></span></li>
-                <li id="framerate">Framerate: <span></span>
-                </li>
-                <li id="rule">Rule: <span></span></li>
-                <li id="generation">Generation: <span></span></li>
-            </ul>
-
-            <div id="settings">
-                <label for="gridLines">Grid Lines</label>
-                <input id="gridLines" type="checkbox" onclick="toggleGridLines()">
-
-                <label for="sizeInput">Size</label>
-                <input id="sizeInput" type="number" value="50" onchange="changeSize()" placeholder="Size" min="3" max="200">
-
-                <label for="framerateInput">Framerate</label>
-                <input id="framerateInput" type="number" value="10" onchange="changeFramerate()" placeholder="Framerate" min="1" max="60">
-
-                <label for="ruleInput">Rule</label>
-                <input id="ruleInput" type="number" value="101" onchange="changeRule()" placeholder="Rule" min="0" max="255">
-                <input id="ruleInputBinary" type="text" value="01100101" onchange="changeRule(doRandom=false, binary=true)" placeholder="Rule">
-                <button id="randomRule" title="Random Rule" onclick="changeRule(doRandom=true)">Random Rule</button>
-            </div>
-            
-            <div id="settings_appearance">
-                <label for="backgroundColorInput">Background Color</label>
-                <input id="backgroundColorInput" type="text" value="#323232" onchange="changeBackgroundColor()" placeholder="Background Color">
-                
-                <label for="cellColorOnInput">Cell Color (On)</label>
-                <input id="cellColorOnInput" type="text" value="#000000" onchange="changeCellColor(true)" placeholder="Cell Color (On)">
-
-                <label for="sizeInput">Cell Color (Off)</label>
-                <input id="cellColorOffInput" type="text" value="#ffffff" onchange="changeCellColor(false)" placeholder="Cell Color (Off)">
-            </div>
+        <div id="playback">
+          <canvas id="can"></canvas>
+          <div id="playback_buttons">
+            <button id="startOver" title="Start Over" onclick="startOver()">
+              <i class="fa-solid fa-backward-step"></i> 
+            </button>
+      
+            <button id="play" title="Play/Pause" onclick="togglePause()">
+              <i class="fa-solid fa-play"></i>
+              <i class="fa-solid fa-pause" style="display: none"></i>
+            </button>
+      
+            <button id="fastForward" title="Fast Forward" onclick="toggleFastForward()">
+              <i class="fa-solid fa-forward"></i>
+            </button>
+      
+            <button id="continuous" title="Continuous" onclick="toggleContinuous()">
+              <i class="fa-solid fa-rotate-right"></i>
+            </button>
+      
+            <button id="stepForward" title="Step Forward" onclick="stepForward()">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
         </div>
-    </div>
+        
+        <div id="sidepanel">
 
-    <div id="playback">
-        <button id="startOver" title="Start Over" onclick="startOver()">
-          <i class="fa-solid fa-backward-step"></i> 
-        </button>
+          <div id="info">
+            <h2>Info</h2>
+            <ul>
+              <li id="size">Size: <span></span></li>
+              <li id="framerate">Framerate: <span></span>
+              </li>
+              <li id="rule">Rule: <span></span></li>
+              <li id="generation">Generation: <span></span></li>
+            </ul>
+          </div>
 
-        <button id="play" title="Play/Pause" onclick="togglePause()">
-          <i class="fa-solid fa-play"></i>
-          <i class="fa-solid fa-pause" style="display: none"></i>
-        </button>
+          <hr>
 
-        <button id="fastForward" title="Fast Forward" onclick="toggleFastForward()">
-          <i class="fa-solid fa-forward"></i>
-        </button>
+          <div id="settings">
+            <h2>Settings</h2>
 
-        <button id="continuous" title="Continuous" onclick="toggleContinuous()">
-          <i class="fa-solid fa-rotate-right"></i>
-        </button>
+            <label for="gridLines">Grid Lines</label>
+            <input id="gridLines" type="checkbox" onclick="toggleGridLines()">
 
-        <button id="stepForward" title="Step Forward" onclick="stepForward()">
-          <i class="fa-solid fa-plus"></i>
-        </button>
+            <label for="sizeInput">Size</label>
+            <input id="sizeInput" type="number" value="50" onchange="changeSize()" placeholder="Size" min="3" max="200">
+
+            <label for="framerateInput">Framerate</label>
+            <input id="framerateInput" type="number" value="10" onchange="changeFramerate()" placeholder="Framerate" min="1" max="60">
+
+            <label for="ruleInput">Rule</label>
+            <input id="ruleInput" type="number" value="101" onchange="changeRule()" placeholder="Rule" min="0" max="255">
+            <input id="ruleInputBinary" type="text" value="01100101" onchange="changeRule(doRandom=false, binary=true)" placeholder="Rule">
+            <button id="randomRule" title="Random Rule" onclick="changeRule(doRandom=true)">Random Rule</button>
+
+            <label for="neighborDistanceInput">Neighbor Distance</label>
+            <input id="neighborDistanceInput" type="number" value="1" onchange="changeNeighborDistance()" placeholder="Size" min="1">
+          </div>
+
+          <hr>
+            
+          <div id="settings_appearance">
+            <h2>Colors</h2>
+
+            <label for="backgroundColorInput">Background Color</label>
+            <input id="backgroundColorInput" type="text" value="#323232" onchange="changeBackgroundColor()" placeholder="Background Color">
+            
+            <label for="cellColorOnInput">Cell Color (On)</label>
+            <input id="cellColorOnInput" type="text" value="#000000" onchange="changeCellColor(true)" placeholder="Cell Color (On)">
+
+            <label for="sizeInput">Cell Color (Off)</label>
+            <input id="cellColorOffInput" type="text" value="#ffffff" onchange="changeCellColor(false)" placeholder="Cell Color (Off)">
+          </div>
+        </div>
+
       </div>
+
     </main>
+
     <script src="ECAV.js"></script>
+
   </body>
 </html>
