@@ -179,6 +179,7 @@ function toggleFastForward() {
     FRAMERATE = 60;
     $('#fastForward').addClass('toggled');
   }
+  $("#framerate > span").html(FRAMERATE);
 }
 
 function toggleContinuous() {
@@ -245,8 +246,11 @@ function changeFramerate() {
   document.getElementById("framerateInput").value = input_val;
 
   FRAMERATE_CONFIG = parseInt(input_val);
-  FRAMERATE = FRAMERATE_CONFIG;
-  $("#framerate > span").html(FRAMERATE_CONFIG);
+  if (!FAST_FORWARDED) {
+    FRAMERATE = FRAMERATE_CONFIG;
+    $("#framerate > span").html(FRAMERATE);
+  }
+  
 }
 
 function changeRule(doRandom=false, binary=false) {
@@ -296,7 +300,7 @@ function changeNeighborDistance() {
   document.getElementById("neighborDistanceInput").value = input_val;
 
   NEIGHBOR_DISTANCE = input_val;
-  
+
   startOver();
 }
 
