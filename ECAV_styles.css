@@ -5,18 +5,24 @@
 
 body {
   margin: 0;
-  padding: 0;
+  padding-block: 50px;
   color: #848d97;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
   background: var(--background);
+}
+
+main {
   display: flex;
+  flex-direction: row;
+  gap: 30px;
   justify-content: center;
 }
 
 h1 {
-  width: fit-content;
-  margin: 0 auto;
+  height: 50px;
   color: white;
+  display: grid;
+  place-items: center;
 }
 
 h2 {
@@ -29,19 +35,6 @@ hr {
   border: 0.2px solid var(--border);
 }
 
-/* MAIN CONTENT */
-
-main {
-  margin: 50px;
-}
-
-#dashboard {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  margin: 20px 0;
-}
-
 #can {
   border: 2px solid var(--border);
 }
@@ -51,7 +44,8 @@ main {
 #playback {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  top: 0;
+  height: fit-content;
 }
 
 #playback_buttons {
@@ -59,6 +53,7 @@ main {
   flex-direction: row;
   gap: 10px;
   height: fit-content;
+  margin-block: 30px;
 }
 
 #playback_buttons > button {
@@ -107,10 +102,11 @@ i {
 /* SIDEPANEL */
 
 #sidepanel {
+  position: relative;
   height: fit-content;
   display: flex;
   flex-direction: column;
-  margin: 0;
+  box-sizing: border-box;
 }
 
 #sidepanel > div {
@@ -130,17 +126,17 @@ i {
 }
 
 #settings,
+#settings_rules,
 #settings_appearance {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-#settings > input,
-#settings_appearance > input {
+input {
   box-sizing: border-box;
   width: 50px;
-  height: fit-content;
+  height: 28px;
   padding: 5px;
 }
 
