@@ -150,6 +150,23 @@ input#gridLines {
   width: fit-content;
 }
 
+#radio_buttons {
+  display: grid;
+  margin: 5px 0;
+  gap: 5px;
+}
+
+.radio_choice input {
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin: 0 5px 0 0;
+}
+
+.radio_choice label {
+  width: fit-content;
+}
+
 input#ruleInputBinary {
   width: 100%;
   margin: 0;
@@ -159,6 +176,7 @@ button#randomRule {
   width: 100%;
   padding: 8px 0;
   margin: 0;
+  font-size: 16px;
   background-color: rgba(40, 50, 65, 0.5);
   color: white;
   border: 2px solid var(--border);
