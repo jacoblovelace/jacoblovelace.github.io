@@ -1,9 +1,9 @@
 
 // GLOBALS
 SCREEN_SIZE = 600;
-COUNT = 0;
+GENERATION_COUNT = -1;
 ROW_COUNT = -1;
-TEMP_ROW = null;
+let TEMP_ROW = null;
 
 // CONFIGURABLES
 FRAMERATE_CONFIG = 10;
@@ -13,6 +13,7 @@ NUM_COLS = 50;
 NUM_ROWS = NUM_COLS;
 GRID_LINES = false;
 NEIGHBOR_DISTANCE = 1;
+RANDOM_START = false;
 BACKGROUND_COLOR = (50, 50, 50);
 VAL_TO_COLOR = new Map(
   [
@@ -79,11 +80,19 @@ class Row {
     
   }
   
-  initStartingState() {
+  initStartingState(doRandom=false) {
+    if (doRandom) {
+      for (let c of this.cells) {
+        c.setVal(Math.floor(Math.random() * 2));
+      }
+      return
+    }
+
     for (let c of this.cells) {
       c.setVal(0);
     }
     this.cells[Math.floor((this.numCells / 2))].setVal(1);
+    return
   }
   
   draw() {
@@ -108,7 +117,7 @@ class Grid {
     for (let i = 0; i < this.numRows; i++) {
       this.rows.push(new Row(i * cellHeight, NUM_COLS));
     }
-    this.rows[0].initStartingState();
+    this.rows[0].initStartingState(RANDOM_START);
   }
   
   reset() {
@@ -117,7 +126,7 @@ class Grid {
         c.setVal(-1);
       }
     }
-    this.rows[0].initStartingState();
+    this.rows[0].initStartingState(RANDOM_START);
   }
   
   draw() {
@@ -143,10 +152,10 @@ function hexToRgb(hex) {
 // PLAYBACK BUTTONS
 
 function startOver() {
-  COUNT = 0;
+  GENERATION_COUNT = -1;
   ROW_COUNT = -1;
   TEMP_ROW = new Row(0, NUM_COLS);
-  TEMP_ROW.initStartingState();
+  TEMP_ROW.initStartingState(RANDOM_START);
   ENDED = false;
   GRID.reset();
 }
@@ -198,7 +207,7 @@ function stepForward() {
   if (PAUSED) {
     if (!ENDED || CONTINUOUS) {
       ROW_COUNT += 1;
-      COUNT += 1;
+      GENERATION_COUNT += 1;
     }
   }
   if (ROW_COUNT >= NUM_ROWS) ROW_COUNT = 0;
@@ -304,6 +313,11 @@ function changeNeighborDistance() {
   startOver();
 }
 
+function changeStartingCondition(doRandom=false) {
+  RANDOM_START = doRandom;
+  startOver();
+}
+
 // COLOR SETTINGS INPUTS
 
 function changeBackgroundColor() {
@@ -351,6 +365,7 @@ function next_generation(cur, row_num) {
 
 // P5.js functions
 
+
 function setup() {
   createCanvas(SCREEN_SIZE, SCREEN_SIZE, can);
 
@@ -370,7 +385,7 @@ function draw() {
   
   if (!PAUSED && !ENDED) {
     ROW_COUNT += 1;
-    COUNT += 1;
+    GENERATION_COUNT += 1;
   }
   if (ROW_COUNT >= NUM_ROWS) ROW_COUNT = 0;
   if (ROW_COUNT >= NUM_ROWS - 1 && !CONTINUOUS) {
@@ -397,6 +412,6 @@ function draw() {
     GRID.rows[mod(i, NUM_ROWS)].draw();
   }
   
-  $("#generation > span").html(COUNT);
+  $("#generation > span").html(GENERATION_COUNT);
   
 }

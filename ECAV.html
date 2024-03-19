@@ -81,6 +81,20 @@
 
             <label for="neighborDistanceInput">Neighbor Distance</label>
             <input id="neighborDistanceInput" type="number" value="1" onchange="changeNeighborDistance()" placeholder="Size" min="1">
+
+            <label for="singleOnStart">Starting Condition</label>
+            <div id="radio_buttons">
+              <div class="radio_choice">
+                <input id="singleOnStart" type="radio" name="startCondition" checked onchange="changeStartingCondition()">
+                <label for="singleOnStart">Single Cell On</label>
+              </div>
+ 
+              <div class="radio_choice">
+                <input id="randomStart" type="radio" name="startCondition" onchange="changeStartingCondition(doRandom=true)">
+                <label for="randomStart">Random</label>
+              </div>
+              
+            </div>
           </div>
 
           <hr>
