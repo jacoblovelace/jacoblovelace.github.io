@@ -6,8 +6,35 @@ var content = document.getElementById('content');
 var nav = document.getElementById('nav');
 var footer = document.getElementById('footer');
 
+function adjustBackgroundBrightness() {
+
+  const headerRect = welcome.getBoundingClientRect();
+  const footerRect = footer.getBoundingClientRect();
+
+  const lowestBrightness = 10;
+  const highestBrightness = 40;
+
+  let backgroundBrightness;
+
+  // header in view, footer not in view
+  if (headerRect.bottom > 0) {
+    backgroundBrightness = highestBrightness - (headerRect.bottom / headerRect.height) * (highestBrightness - lowestBrightness);
+  }
+  // footer in view, header not in view
+  else if (footerRect.top < footerRect.height) {
+    backgroundBrightness = (footerRect.top / footerRect.height) * (highestBrightness - lowestBrightness) + lowestBrightness;
+  }
+  // otherwise
+  else {
+    backgroundBrightness = highestBrightness;
+  }
+
+  document.getElementById('body-bg').style.filter = `brightness(${backgroundBrightness}%)`;
+}
+
 // Arrow animation on title screen
 document.addEventListener("DOMContentLoaded", function() {
+
 
     function animateArrow() {
         var downArrow = document.getElementById("down-arrow");
@@ -32,29 +59,14 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-  animateArrow();
+  adjustBackgroundBrightness();
   setInterval(animateArrow, 1500); // new arrow every 1.5 seconds
 });
 
 // darken screen effect
 document.addEventListener("scroll", function() {
 
-  function darkenScreenEffect(element, inverse = false) {
-    const screenRect = element.getBoundingClientRect();
-    const lowerBound = 10;
-    const upperBound = 40;
-
-    let heightPercent = inverse ? screenRect.bottom / screenRect.height : screenRect.top / screenRect.height;
-    let brightnessPercent = inverse ? upperBound - heightPercent * (upperBound - lowerBound) : heightPercent * (upperBound - lowerBound) + lowerBound;
-
-    document.getElementById('body-bg').style.filter = `brightness(${brightnessPercent}%)`;
-  }
-
-  let welcomeRect = welcome.getBoundingClientRect();
-  if (welcomeRect.bottom > 0) darkenScreenEffect(welcome, inverse=true);
-
-  let footerRect = footer.getBoundingClientRect();
-  if (footerRect.top < footerRect.height) darkenScreenEffect(footer, inverse=false);
+  adjustBackgroundBrightness();
 })
 
 

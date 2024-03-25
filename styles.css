@@ -53,9 +53,9 @@ ul {
   right: 0;
   width: 100%;
   height: 100%;
-  background-image: url("https://images.unsplash.com/photo-1513112300738-bbb13af7028e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDcxODUyODF8&ixlib=rb-4.0.3&q=85");
+  background-image: url("https://images.unsplash.com/photo-1492446190781-58ac4285911d?q=80&w=2810&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   background-size: cover;
-  filter: brightness(10%);
+  filter: brightness(10%) contrast(200%);
 }
 
 /* TITLE SCREEN */
