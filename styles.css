@@ -46,7 +46,7 @@ ul {
   list-style: none;
 }
 
-.body-bg {
+#body-bg {
   position: fixed;
   z-index: -1;
   top: 0;
@@ -55,7 +55,7 @@ ul {
   height: 100%;
   background-image: url("https://images.unsplash.com/photo-1513112300738-bbb13af7028e?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDcxODUyODF8&ixlib=rb-4.0.3&q=85");
   background-size: cover;
-  filter: brightness(30%);
+  filter: brightness(10%);
 }
 
 /* TITLE SCREEN */

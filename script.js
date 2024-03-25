@@ -4,6 +4,7 @@ var welcome = document.getElementById('welcome-screen');
 var container = document.getElementById('container');
 var content = document.getElementById('content');
 var nav = document.getElementById('nav');
+var footer = document.getElementById('footer');
 
 // Arrow animation on title screen
 document.addEventListener("DOMContentLoaded", function() {
@@ -34,6 +35,28 @@ document.addEventListener("DOMContentLoaded", function() {
   animateArrow();
   setInterval(animateArrow, 1500); // new arrow every 1.5 seconds
 });
+
+// darken screen effect
+document.addEventListener("scroll", function() {
+
+  function darkenScreenEffect(element, inverse = false) {
+    const screenRect = element.getBoundingClientRect();
+    const lowerBound = 10;
+    const upperBound = 40;
+
+    let heightPercent = inverse ? screenRect.bottom / screenRect.height : screenRect.top / screenRect.height;
+    let brightnessPercent = inverse ? upperBound - heightPercent * (upperBound - lowerBound) : heightPercent * (upperBound - lowerBound) + lowerBound;
+
+    document.getElementById('body-bg').style.filter = `brightness(${brightnessPercent}%)`;
+  }
+
+  let welcomeRect = welcome.getBoundingClientRect();
+  if (welcomeRect.bottom > 0) darkenScreenEffect(welcome, inverse=true);
+
+  let footerRect = footer.getBoundingClientRect();
+  if (footerRect.top < footerRect.height) darkenScreenEffect(footer, inverse=false);
+})
+
 
 // TOGGLE CARDS
 // ensure only one box can be open at a time
