@@ -154,6 +154,17 @@ function hexToRgb(hex) {
   ] : null;
 }
 
+function coerceInput(element_id, lower_bound, upper_bound) {
+  let input_val = document.getElementById(element_id).value;
+
+  input_val = Math.max(input_val, lower_bound);
+  input_val = Math.min(input_val, upper_bound);
+
+  document.getElementById(element_id).value = input_val;
+
+  return input_val;
+}
+
 // PLAYBACK BUTTONS
 
 function startOver() {
@@ -226,15 +237,7 @@ function toggleGridLines() {
 }
 
 function changeSize() {
-  const lower_bound = 3;
-  const upper_bound = 200;
-
-  let input_val = document.getElementById("sizeInput").value;
-
-  input_val = Math.max(input_val, lower_bound);
-  input_val = Math.min(input_val, upper_bound);
-
-  document.getElementById("sizeInput").value = input_val;
+  let input_val = coerceInput("sizeInput", 3, 200);
 
   NUM_COLS = parseInt(input_val);
   NUM_ROWS = NUM_COLS;
@@ -249,72 +252,60 @@ function changeSize() {
 }
 
 function changeFramerate() {
-  const lower_bound = 1;
-  const upper_bound = 60;
-
-  let input_val = document.getElementById("framerateInput").value;
-
-  input_val = Math.max(input_val, lower_bound);
-  input_val = Math.min(input_val, upper_bound);
-  
-  document.getElementById("framerateInput").value = input_val;
+  let input_val = coerceInput("framerateInput", 1, 60);
 
   FRAMERATE_CONFIG = parseInt(input_val);
   if (!FAST_FORWARDED) {
     FRAMERATE = FRAMERATE_CONFIG;
     $("#framerate > span").html(FRAMERATE);
   }
-  
 }
 
 function changeRule(doRandom=false, binary=false) {
   let rule = 0;
-  let valid = false; 
 
   if (doRandom) {
     rule = Math.floor(Math.random() * 256);
     document.getElementById("ruleInput").value = rule;
     document.getElementById("ruleInputBinary").value = "00000000".substring(Number(rule).toString(2).length) + Number(rule).toString(2);
-
-    valid = true;
   }
+
   else {
-    // convert rule into decimal if in binary
-    rule = binary ? parseInt(document.getElementById("ruleInputBinary").value, 2) : document.getElementById("ruleInput").value;
 
-    // check bounds
-    if (rule >= 0 && rule <= 255) {
-      if (binary) document.getElementById("ruleInput").value = rule;
-      else document.getElementById("ruleInputBinary").value = "00000000".substring(Number(rule).toString(2).length) + Number(rule).toString(2);
+    if (binary) {
+      let ruleBinary = document.getElementById("ruleInputBinary").value;
 
-      valid = true;
+      // replace non 1 or 0 in string with 0
+      for (let i = 0; i < ruleBinary.length; i++) {
+        if (ruleBinary[i] !== "0" && ruleBinary[i] !== "1") {
+          ruleBinary = ruleBinary.substring(0, i) + '0' + ruleBinary.substring(i+1, ruleBinary.length);
+        }
+      }
+      // add leading zeroes
+      ruleBinary = "00000000".substring(ruleBinary.length) + ruleBinary;
+
+      document.getElementById("ruleInputBinary").value = ruleBinary;
+
+      // convert to decimal
+      rule = parseInt(ruleBinary, 2);
+      document.getElementById("ruleInput").value = rule;
+    }
+    else {
+      rule = coerceInput("ruleInput", 0, 255);
+      document.getElementById("ruleInputBinary").value = "00000000".substring(Number(rule).toString(2).length) + Number(rule).toString(2);
     }
   }
 
-  if (valid) {
-    startOver();
-    RULE = rule;
-    $("#rule > span").html(RULE);
-
-    return true;
-  }
-
-  return false;
+  // change global rule, update html, reset simulation
+  RULE = rule;
+  $("#rule > span").html(RULE);
+  startOver();
 }
 
 function changeNeighborDistance() {
-  const lower_bound = 1;
-  const upper_bound = Math.floor(NUM_COLS / 2);
-
-  let input_val = document.getElementById("neighborDistanceInput").value;
-
-  input_val = Math.max(input_val, lower_bound);
-  input_val = Math.min(input_val, upper_bound);
-  
+  let input_val = coerceInput("neighborDistanceInput", 1, Math.floor(NUM_COLS / 2));
   document.getElementById("neighborDistanceInput").value = input_val;
-
   NEIGHBOR_DISTANCE = input_val;
-
   startOver();
 }
 
@@ -327,23 +318,21 @@ function changeStartingCondition(doRandom=false) {
 
 function changeBackgroundColor() {
   const hex = document.getElementById("backgroundColorInput").value;
-  
   const rgb = hexToRgb(hex);
   if (rgb) BACKGROUND_COLOR = rgb;
 }
 
 function changeCellColor(isOn) {
-  
   const hex = isOn ? document.getElementById("cellColorOnInput").value : document.getElementById("cellColorOffInput").value;
-  
   const rgb = hexToRgb(hex);
+  
   if (hex) {
     if (isOn) VAL_TO_COLOR.set(1, rgb);
     else VAL_TO_COLOR.set(0, rgb);
   }
 }
 
-// SIMULAION FUNCTION
+// SIMULATION FUNCTION
 
 function next_generation(cur, row_num) { 
   
@@ -369,7 +358,6 @@ function next_generation(cur, row_num) {
 }
 
 // P5.js functions
-
 
 function setup() {
   createCanvas(SCREEN_SIZE, SCREEN_SIZE, can);
@@ -399,8 +387,6 @@ function draw() {
     $('#play').removeClass('toggled');
     $('#stepForward').addClass('disabled');
   }
-
-  
   
   // draw grid
   for (let i = 0; i <= ROW_COUNT; i++) {
