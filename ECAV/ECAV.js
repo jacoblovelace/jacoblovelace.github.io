@@ -3,7 +3,8 @@
 SCREEN_SIZE = 600;
 GENERATION_COUNT = -1;
 ROW_COUNT = -1;
-let TEMP_ROW = null;
+PREV_ROW_COUNT = ROW_COUNT;
+TEMP_ROW = null;
 
 // CONFIGURABLES
 FRAMERATE_CONFIG = 10;
@@ -48,10 +49,15 @@ class Cell {
   
   setVal(val) {
     this.value = val;
+    this.updateColor();
+  }
+
+  updateColor() {
     this.color = VAL_TO_COLOR.get(this.value);
   }
   
   draw() {
+    this.updateColor();
     const c = color(...this.color);
     fill(c);
     GRID_LINES ? stroke(50, 50, 50, 50) : noStroke();
@@ -77,7 +83,6 @@ class Row {
       c.setVal(-1);
       this.cells.push(c);
     }
-    
   }
   
   initStartingState(doRandom=false) {
@@ -394,6 +399,8 @@ function draw() {
     $('#play').removeClass('toggled');
     $('#stepForward').addClass('disabled');
   }
+
+  
   
   // draw grid
   for (let i = 0; i <= ROW_COUNT; i++) {
@@ -401,16 +408,19 @@ function draw() {
     if (ROW_COUNT == 0 && GRID.rows[mod(i+1, NUM_ROWS)] !== TEMP_ROW) GRID.rows[mod(i, NUM_ROWS)] = TEMP_ROW;
     
     // only need to simulate last drawn row
-    if (i == ROW_COUNT) {
+    if (i == ROW_COUNT && ROW_COUNT !== PREV_ROW_COUNT) {
       TEMP_ROW = next_generation(GRID.rows[i], mod(i+1, NUM_ROWS));
       if ((!ENDED || CONTINUOUS) && ROW_COUNT < NUM_ROWS - 1) {
         GRID.rows[mod(i+1, NUM_ROWS)] = TEMP_ROW;
       }
+      console.log("heyyyy");
     }
     
     // draw every row
     GRID.rows[mod(i, NUM_ROWS)].draw();
   }
+
+  if (!PAUSED && !ENDED) PREV_ROW_COUNT = ROW_COUNT;
   
   $("#generation > span").html(GENERATION_COUNT);
   

@@ -185,7 +185,9 @@ button#randomRule:active {
 }
 
 #settings_appearance > input {
-  width: 100%;
+  width: 30px;
+  height: 30px;
+  padding: 0px;
 }
 
 /* FOOTER */

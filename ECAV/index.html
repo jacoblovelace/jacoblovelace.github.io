@@ -68,10 +68,10 @@
           <label for="gridLines">Grid Lines</label>
           <input id="gridLines" type="checkbox" onclick="toggleGridLines()">
 
-          <label for="sizeInput">Size</label>
+          <label for="sizeInput">Size (3-200)</label>
           <input id="sizeInput" type="number" value="50" onchange="changeSize()" placeholder="Size" min="3" max="200">
 
-          <label for="framerateInput">Framerate</label>
+          <label for="framerateInput">Framerate (1-60 fps)</label>
           <input id="framerateInput" type="number" value="10" onchange="changeFramerate()" placeholder="Framerate" min="1" max="60">
 
           <label for="singleOnStart">Starting Condition</label>
@@ -93,10 +93,10 @@
         <div id="settings_rules">
           <h2>Rules</h2>
 
-          <label for="ruleInput">Rule (Decimal)</label>
+          <label for="ruleInput">Rule - Decimal (0-255)</label>
           <input id="ruleInput" type="number" value="101" onchange="changeRule()" placeholder="Rule" min="0" max="255">
 
-          <label for="ruleInputBinary">Rule (Binary)</label>
+          <label for="ruleInputBinary">Rule - Binary</label>
           <input id="ruleInputBinary" type="text" value="01100101" onchange="changeRule(doRandom=false, binary=true)" placeholder="Rule">
 
           <button id="randomRule" title="Random Rule" onclick="changeRule(doRandom=true)">Random Rule</button>
@@ -111,13 +111,13 @@
           <h2>Colors</h2>
 
           <label for="backgroundColorInput">Background Color</label>
-          <input id="backgroundColorInput" type="text" value="#323232" onchange="changeBackgroundColor()" placeholder="Background Color">
+          <input id="backgroundColorInput" type="color" value="#323232" onchange="changeBackgroundColor()" placeholder="Background Color">
           
           <label for="cellColorOnInput">Cell Color (On)</label>
-          <input id="cellColorOnInput" type="text" value="#000000" onchange="changeCellColor(true)" placeholder="Cell Color (On)">
+          <input id="cellColorOnInput" type="color" value="#000000" onchange="changeCellColor(true)" placeholder="Cell Color (On)">
 
           <label for="sizeInput">Cell Color (Off)</label>
-          <input id="cellColorOffInput" type="text" value="#ffffff" onchange="changeCellColor(false)" placeholder="Cell Color (Off)">
+          <input id="cellColorOffInput" type="color" value="#ffffff" onchange="changeCellColor(false)" placeholder="Cell Color (Off)">
 
         </div>
       </div>
