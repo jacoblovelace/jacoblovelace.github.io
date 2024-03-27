@@ -413,7 +413,6 @@ function draw() {
       if ((!ENDED || CONTINUOUS) && ROW_COUNT < NUM_ROWS - 1) {
         GRID.rows[mod(i+1, NUM_ROWS)] = TEMP_ROW;
       }
-      console.log("heyyyy");
     }
     
     // draw every row
